@@ -4084,6 +4084,7 @@ void ImGui::NewFrame()
     // [DEBUG] Item picker tool - start with DebugStartItemPicker() - useful to visually select an item and break into its call-stack.
     UpdateDebugToolItemPicker();
 
+#ifndef IMGUI_DISABLE_DEBUG_WINDOWS
     // Create implicit/fallback window - which we will only render it if the user has added something to it.
     // We don't use "Debug" to avoid colliding with user trying to create a "Debug" window with custom flags.
     // This fallback is particularly important as it avoid ImGui:: calls from crashing.
@@ -4091,6 +4092,7 @@ void ImGui::NewFrame()
     SetNextWindowSize(ImVec2(400,400), ImGuiCond_FirstUseEver);
     Begin("Debug##Default");
     IM_ASSERT(g.CurrentWindow->IsFallbackWindow == true);
+#endif
 
 #ifdef IMGUI_ENABLE_TEST_ENGINE
     ImGuiTestEngineHook_PostNewFrame(&g);
@@ -4477,11 +4479,15 @@ void ImGui::EndFrame()
             g.PlatformImePosViewport = NULL;
         }
 
+#ifdef IMGUI_DISABLE_DEBUG_WINDOWS
+    IM_ASSERT(g.CurrentWindowStack.Size == 0);    // Mismatched Begin()/End() calls
+#else
     // Hide implicit/fallback "Debug" window if it hasn't been used
     g.WithinFrameScopeWithImplicitWindow = false;
     if (g.CurrentWindow && !g.CurrentWindow->WriteAccessed)
         g.CurrentWindow->Active = false;
     End();
+#endif
 
     // Draw modal whitening background on _other_ viewports than the one the modal is one
     EndFrameDrawDimmedBackgrounds();

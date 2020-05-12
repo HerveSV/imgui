@@ -30,6 +30,12 @@
 // It is very strongly recommended to NOT disable the demo windows during development. Please read comments in imgui_demo.cpp.
 //#define IMGUI_DISABLE                                     // Disable everything: all headers and source files will be empty.
 //#define IMGUI_DISABLE_DEMO_WINDOWS                        // Disable demo windows: ShowDemoWindow()/ShowStyleEditor() will be empty. Not recommended.
+
+
+//---- Don't implement debug window.
+//#define IMGUI_DISABLE_DEBUG_WINDOWS
+
+
 //#define IMGUI_DISABLE_METRICS_WINDOW                      // Disable debug/metrics window: ShowMetricsWindow() will be empty.
 
 //---- Don't implement some functions to reduce linkage requirements.
